@@ -22,6 +22,7 @@
  *   '',  'bb'  => 'bb'
  */
 function concatenateStrings(value1, value2) {
+    return value1 + value2;
     throw new Error('Not implemented');
 }
 
@@ -38,6 +39,7 @@ function concatenateStrings(value1, value2) {
  *   ''      => 0
  */
 function getStringLength(value) {
+    return value.length;
     throw new Error('Not implemented');
 }
 
@@ -55,6 +57,7 @@ function getStringLength(value) {
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
 function getStringFromTemplate(firstName, lastName) {
+    return "Hello, " + firstName + " " + lastName + "!";
     throw new Error('Not implemented');
 }
 
@@ -69,6 +72,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
+    return value.slice(7, -1);
     throw new Error('Not implemented');
 }
 
@@ -84,6 +88,7 @@ function extractNameFromTemplate(value) {
  *   'cat'       => 'c'
  */
 function getFirstChar(value) {
+    return value.slice(0, 1);
     throw new Error('Not implemented');
 }
 
@@ -99,6 +104,7 @@ function getFirstChar(value) {
  *   '\tHello, World! ' => 'Hello, World!'
  */
 function removeLeadingAndTrailingWhitespaces(value) {
+    return value.trim();
     throw new Error('Not implemented');
 }
 
@@ -114,12 +120,19 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
+    var str = "";
+
+    for (var i = 0; i < count; i++) {
+        str += value;
+    }
+
+    return str;
     throw new Error('Not implemented');
 }
 
 /**
  * Remove the first occurrence of string inside another string
- * 
+ *
  * @param {string} str
  * @param {string} value
  * @return {string}
@@ -130,6 +143,7 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
+    return str.replace (value, "");
     throw new Error('Not implemented');
 }
 
@@ -145,6 +159,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
+    return str.replace(">", "").replace("<", "");
     throw new Error('Not implemented');
 }
 
@@ -160,6 +175,7 @@ function unbracketTag(str) {
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
 function convertToUpperCase(str) {
+    return str.toUpperCase();
     throw new Error('Not implemented');
 }
 
@@ -174,6 +190,7 @@ function convertToUpperCase(str) {
  *   'info@gmail.com' => ['info@gmail.com']
  */
 function extractEmails(str) {
+    return str.split(";");
     throw new Error('Not implemented');
 }
 
@@ -187,20 +204,45 @@ function extractEmails(str) {
  *
  * @example
  *
- *            '┌────┐\n'+
- *  (6,4) =>  '│    │\n'+
- *            '│    │\n'+
- *            '└────┘\n'
+ *            '-----¬\n'+
+ *  (6,4) =>  '¦    ¦\n'+
+ *            '¦    ¦\n'+
+ *            'L-----\n'
  *
- *  (2,2) =>  '┌┐\n'+
- *            '└┘\n'
+ *  (2,2) =>  '-¬\n'+
+ *            'L-\n'
  *
- *             '┌──────────┐\n'+
- *  (12,3) =>  '│          │\n'+
- *             '└──────────┘\n'
+ *             '-----------¬\n'+
+ *  (12,3) =>  '¦          ¦\n'+
+ *             'L-----------\n'
  *
  */
 function getRectangleString(width, height) {
+    var str = "┌";
+
+    for (var i = 0; i < width - 2; i++) {
+        str += '─';
+    }
+
+    str += '┐\n';
+
+    for (var j = 0; j < height - 2; j++) {
+        str += '│';
+        for (var i = 0; i < width - 2; i++) {
+            str += ' ';
+        }
+        str += '│\n';
+    }
+
+    str += '└';
+
+    for (var i = 0; i < width - 2; i++) {
+        str += '─';
+    }
+
+    str += '┘\n';
+
+    return str;
     throw new Error('Not implemented');
 }
 
@@ -221,6 +263,21 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
+    var str_ = "";
+
+    for (var i = 0; i < str.length; i++) {
+        if ((str.charAt(i).charCodeAt()) > 109) {
+            str_ += String.fromCharCode(str.charAt(i).charCodeAt() + 13 - 26);
+        } else if (77 < (str.charAt(i).charCodeAt()) && (str.charAt(i).charCodeAt()) <= 90) {
+            str_ += String.fromCharCode(str.charAt(i).charCodeAt() + 13 - 26);
+        } else if ((str.charAt(i).charCodeAt()) < 64) {
+            str_ += String.fromCharCode(str.charAt(i).charCodeAt());
+        } else {
+            str_ += String.fromCharCode(str.charAt(i).charCodeAt() + 13);
+        }
+    }
+
+    return str_;
     throw new Error('Not implemented');
 }
 
@@ -230,43 +287,54 @@ function encodeToRot13(str) {
  * @return {boolean}
  *
  * @example
- *   isString() => false
- *   isString(null) => false
- *   isString([]) => false
- *   isString({}) => false
- *   isString('test') => true
- *   isString(new String('test')) => true
+ *   isString() => false => undefined
+ *   isString(null) => false => object
+ *   isString([]) => false => object
+ *   isString({}) => false => object
+ *   isString('test') => true => string
+ *   isString(new String('test')) => true => object
  */
 function isString(value) {
+    if (typeof value === 'string' || value instanceof String) {
+        return true;
+    }
+
+    return false;
     throw new Error('Not implemented');
 }
 
 
 /**
  * Returns playid card id.
- * 
+ *
  * Playing cards inittial deck inclides the cards in the following order:
- * 
- *  'A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
- *  'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',
- *  'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥',
- *  'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'
- * 
+ *
+ *  'A¦','2¦','3¦','4¦','5¦','6¦','7¦','8¦','9¦','10¦','J¦','Q¦','K¦',
+ *  'A¦','2¦','3¦','4¦','5¦','6¦','7¦','8¦','9¦','10¦','J¦','Q¦','K¦',
+ *  'A¦','2¦','3¦','4¦','5¦','6¦','7¦','8¦','9¦','10¦','J¦','Q¦','K¦',
+ *  'A¦','2¦','3¦','4¦','5¦','6¦','7¦','8¦','9¦','10¦','J¦','Q¦','K¦'
+ *
  * (see https://en.wikipedia.org/wiki/Standard_52-card_deck)
  * Function returns the zero-based index of specified card in the initial deck above.
- * 
+ *
  * @param {string} value
  * @return {number}
  *
  * @example
- *   'A♣' => 0
- *   '2♣' => 1 
- *   '3♣' => 2
+ *   'A¦' => 0
+ *   '2¦' => 1
+ *   '3¦' => 2
  *     ...
- *   'Q♠' => 50
- *   'K♠' => 51
+ *   'Q¦' => 50
+ *   'K¦' => 51
  */
 function getCardId(value) {
+    var arr = ['A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
+        'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',
+        'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥',
+        'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠' ];
+
+    return arr.indexOf(value);
     throw new Error('Not implemented');
 }
 
